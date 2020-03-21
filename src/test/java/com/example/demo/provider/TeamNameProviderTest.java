@@ -22,7 +22,7 @@ class TeamNameProviderTest {
 
     @BeforeEach
     void setUp() {
-        when(restTemplate.getForEntity("http://localhost:8080/getTeamAssignment/jlowrey", TeamNameResponse.class))
+        when(restTemplate.getForEntity("/getTeamAssignment/jlowrey", TeamNameResponse.class))
                 .thenReturn(new ResponseEntity<TeamNameResponse>(new TeamNameResponse("Sentinel"), HttpStatus.OK));
         subject = new TeamNameProvider(restTemplate);
     }

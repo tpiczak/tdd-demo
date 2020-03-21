@@ -1,9 +1,7 @@
 package com.example.demo.web;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.common.ConsoleNotifier;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import org.junit.ClassRule;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -21,19 +18,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class TeamMemberControllerIntegrationTest {
 
-    @ClassRule
-    public static WireMockRule wireMockRule = new WireMockRule(
-            options().port(8080).notifier(new ConsoleNotifier(true)));
-
+    WireMockServer wms = new WireMockServer(8081);
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     void shouldReturnAllTeamMembers_asJSON() throws Exception {
-        wireMockRule.stubFor(WireMock.get(urlEqualTo("http://localhost:8080/getTeamAssignment/jlowrey"))
+        wms.start();
+        wms.stubFor(WireMock.get(urlEqualTo("/getTeamAssignment/jlowrey"))
                 .willReturn(WireMock.aResponse()
                         .withStatus(HttpStatus.OK.value())
-                         .withBody("{\"teamName\":\"Sentinel\"}")));
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("{\"teamName\":\"Sentinel\"}")));
+
         mockMvc.perform(get("/getAllTeamMembers"))
                 .andExpect(status().isOk())
                .andExpect(content().json("[\n" +
@@ -51,6 +48,6 @@ class TeamMemberControllerIntegrationTest {
                         "    \"team\": \"Sentinel\"\n" +
                         "  }\n" +
                         "]"));
-
+        wms.stop();
     }
 }
