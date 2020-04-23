@@ -35,6 +35,6 @@ class TeamMemberControllerIntegrationTest {
                         "    \"lastName\": \"Lowrey\",\n" +
                         "    \"team\": null\n" +
                         "  }\n" +
-                        "]"));
+                        "]", true));
     }
 }
