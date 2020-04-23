@@ -18,13 +18,15 @@ public class TeamMemberRepository {
 
     public List<TeamMember> findAll() {
         return jdbcTemplate.query("SELECT * FROM team_member", (rs, rowNum) -> new TeamMember(
-                rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
+                rs.getString(1), rs.getString(2), rs.getString(3),
+                rs.getString(4), rs.getString(5)));
     }
 
     public Optional<TeamMember> findByUserId(String userId) {
         return Optional.ofNullable(jdbcTemplate.query("SELECT * FROM team_member WHERE user_id = ?",
                 rs -> rs.next() ? new TeamMember(
-                        rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)) : null,
+                        rs.getString(1), rs.getString(2), rs.getString(3),
+                        rs.getString(4), rs.getString(5)) : null,
                 userId));
     }
 }

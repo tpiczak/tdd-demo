@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import com.example.demo.common.TeamMember;
 import com.example.demo.data.TeamMemberRepository;
-import com.example.demo.provider.TeamNameProvider;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -14,18 +13,14 @@ import static org.springframework.util.StringUtils.isEmpty;
 @Service
 public class TeamMemberService {
 
-    TeamMemberRepository teamMemberRepository;
-    TeamNameProvider teamNameProvider;
+    TeamMemberRepository repository;
 
-    public TeamMemberService(TeamMemberRepository repository, TeamNameProvider teamNameProvider) {
-        teamMemberRepository = repository;
-        this.teamNameProvider = teamNameProvider;
+    public TeamMemberService(TeamMemberRepository repository) {
+        this.repository = repository;
     }
 
     public List<TeamMember> getAllTeamMembers() {
-        List<TeamMember> list = Optional.ofNullable(teamMemberRepository.findAll()).orElse(Collections.emptyList());
-        list.stream().filter(teamMember -> isEmpty(teamMember.team))
-                .forEach(teamMember -> teamMember.team = teamNameProvider.getTeamName(teamMember.userId));
+        List<TeamMember> list = Optional.ofNullable(repository.findAll()).orElse(Collections.emptyList());
         return list;
     }
 }

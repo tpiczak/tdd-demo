@@ -30,15 +30,15 @@ class TeamMemberRepositoryTest {
         List<TeamMember> teamMembers = subject.findAll();
         assertNotNull(teamMembers);
         assertEquals(2, teamMembers.size());
-        assertTrue(teamMembers.contains(new TeamMember("tpicza1", "Tom", "Piczak", "Starflake")));
-        assertTrue(teamMembers.contains(new TeamMember("jlowrey", "Jon", "Lowrey", null)));
+        assertTrue(teamMembers.contains(new TeamMember("tpicza1", "Tom", "Piczak", "Starflake", "url1")));
+        assertTrue(teamMembers.contains(new TeamMember("jlowrey", "Jon", "Lowrey", null, "url2")));
     }
 
     @Test
     public void shouldReturnSingleTeamMember_whenUserIdExists() {
         Optional<TeamMember> teamMember = subject.findByUserId("tpicza1");
         assertTrue(teamMember.isPresent());
-        assertEquals(new TeamMember("tpicza1", "Tom", "Piczak", "Starflake"), teamMember.get());
+        assertEquals(new TeamMember("tpicza1", "Tom", "Piczak", "Starflake", "url1"), teamMember.get());
     }
 
     @Test
