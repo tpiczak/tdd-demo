@@ -7,12 +7,14 @@ public class TeamMember {
     public String firstName;
     public String lastName;
     public String team;
+    public String imageUrl;
 
-    public TeamMember(String userId, String firstName, String lastName, String team) {
+    public TeamMember(String userId, String firstName, String lastName, String team, String imageUrl) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.team = team;
+        this.imageUrl = imageUrl;
     }
 
     @Override
@@ -23,12 +25,13 @@ public class TeamMember {
         return userId.equals(that.userId) &&
                 firstName.equals(that.firstName) &&
                 lastName.equals(that.lastName) &&
-                Objects.equals(team, that.team);
+                Objects.equals(team, that.team) &&
+                Objects.equals(imageUrl, that.imageUrl);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, firstName, lastName, team);
+        return Objects.hash(userId, firstName, lastName, team, imageUrl);
     }
 
 }

@@ -2,12 +2,10 @@ package com.example.demo.web;
 
 import com.example.demo.common.TeamMember;
 import com.example.demo.service.TeamMemberService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static java.util.Arrays.asList;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -27,8 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TeamMemberControllerTest {
 
     public static final List<TeamMember> TEAM_MEMBERS = asList(
-            new TeamMember("tpicza1", "Tom", "Piczak", "Starflake"),
-            new TeamMember("jlowrey", "Jon", "Lowrey", null)
+            new TeamMember("tpicza1", "Tom", "Piczak", "Starflake", "url1"),
+            new TeamMember("jlowrey", "Jon", "Lowrey", null, "url2")
     );
     @Autowired
     private MockMvc mockMvc;
@@ -55,14 +52,16 @@ class TeamMemberControllerTest {
                         "    \"userId\": \"tpicza1\",\n" +
                         "    \"firstName\": \"Tom\",\n" +
                         "    \"lastName\": \"Piczak\",\n" +
-                        "    \"team\": \"Starflake\"\n" +
+                        "    \"team\": \"Starflake\",\n" +
+                        "    \"imageUrl\": \"url1\"\n" +
                         "  },\n" +
                         "  " +
                         "{\n" +
                         "    \"userId\": \"jlowrey\",\n" +
                         "    \"firstName\": \"Jon\",\n" +
                         "    \"lastName\": \"Lowrey\",\n" +
-                        "    \"team\": null\n" +
+                        "    \"team\": null,\n" +
+                        "    \"imageUrl\": \"url2\"\n" +
                         "  }\n" +
                         "]"));
 
